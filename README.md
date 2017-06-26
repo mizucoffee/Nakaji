@@ -26,10 +26,10 @@
 <img src=https://raw.githubusercontent.com/kawakawaritsuki/image/master/xm95yekbhkgtihgb.png width=400px>
 
 ### ダサい
-ごめんなさい。    
+ごめんなさい。      
 全体的にkb10uyさんの[こちら](https://github.com/kb10uy/Seaurchin)のプロジェクトが素晴らしいのでおすすめです。
 
 ### バグがある
-ごめんなさい。Issues投げてもらえれば出来る限り対応したいと思いますが、出来ないこともありますのでご了承ください。    
+ごめんなさい。Issues投げてもらえれば出来る限り対応したいと思いますが、出来ないこともありますのでご了承ください。      
 全体的にkb10uyさんの[こちら](https://github.com/kb10uy/Seaurchin)のプロジェクトが素晴らしいのでおすすめです。
 
