@@ -28,6 +28,10 @@ public class Notes : MonoBehaviour {
                 new Vector3 (nm.start - 7.8f, 0, 1),
                 new Vector3 (nm.end - 7.2f, 0, 1),
             };
+            mesh.triangles = new int[] {
+                //0, 2, 1, 1, 2, 3
+                0, 3, 1, 0, 2, 3
+            };
         }
         if (nm.type == 2)
         {
@@ -37,20 +41,45 @@ public class Notes : MonoBehaviour {
                 new Vector3 (nm.start - 7.8f, 0, nm.hold * speed * 1.5f + 1),
                 new Vector3 (nm.end - 7.2f, 0, nm.hold * speed * 1.5f + 1),
             };
-        }
-        if (nm.type == 3)
-        {
-            mesh.vertices = new Vector3[] {
-                new Vector3 (nm.start - 7.8f, 0, 0),
-                new Vector3 (nm.end - 7.2f, 0, 0),
-                new Vector3 (nm.slide[0].start - 8.8f, 0, nm.slide[0].step * speed * 1.5f + 1),
-                new Vector3 (nm.slide[0].end - 8.2f, 0, nm.slide[0].step * speed * 1.5f + 1),
+            mesh.triangles = new int[] {
+                //0, 2, 1, 1, 2, 3
+                0, 3, 1, 0, 2, 3
             };
         }
+        
 
-        mesh.triangles = new int[] {
-            1, 2, 3,0, 2, 1
-        };
+        if (nm.type == 3)
+        {
+            Vector3[] ver = new Vector3[nm.slide.Count * 2 + 2];
+            int[] tri = new int[nm.slide.Count * 6];
+            ver[0] = new Vector3(nm.start - 7.8f, 0, 0);
+            ver[1] = new Vector3(nm.end - 7.2f, 0, 0);
+
+            int i = 2;
+            int c = 0;
+            int countStep = 0;
+            foreach (SlideModel sm in nm.slide)
+            {
+                tri[c++] = i - 2;
+                tri[c++] = i + 1;
+                tri[c++] = i - 1;
+                tri[c++] = i - 2;
+                tri[c++] = i;
+                tri[c++] = i + 1;
+                countStep = countStep + sm.step;
+                ver[i] = new Vector3(sm.start - 8.8f, 0, countStep * speed * 1.5f + 1);
+                i++;
+                ver[i] = new Vector3(sm.end - 8.2f, 0, countStep * speed * 1.5f + 1);
+                i++;
+            }
+            mesh.vertices = ver;
+            Debug.Log(ver.Length);
+            mesh.triangles = tri;
+            foreach (int ii in tri)
+                Debug.Log(ii);
+        }
+
+        
 
         var filter = GetComponent<MeshFilter>();
         mesh.name = "Notes Mesh";
@@ -63,6 +92,8 @@ public class Notes : MonoBehaviour {
             meshrenderer.material.color = new Color(2.5f, 2.5f, 0);
         else if (nm.type == 2)
             meshrenderer.material.color = new Color(2.5f, 1.25f, 0);
+        else if (nm.type == 3)
+            meshrenderer.material.color = new Color(1.5f, 2.5f, 2.5f);
 
         this.speed = speed;
         this.nm = nm;
