@@ -260,7 +260,7 @@ public class FileLoader{
                                 }
                                 
                                 NotesModel nm = new NotesModel(bpm);
-                                nm.slide = intArray;
+                               // nm.slide = intArray;
                                 list[count].Add(nm);
                                 tmp = "";
                                 break;

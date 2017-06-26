@@ -9,7 +9,7 @@ public class NotesModel {
     // 1 yellow
     // 2 hold
     public int hold = 0;
-    public List<int[]> slide = new List<int[]>();
+    public List<SlideModel> slide = new List<SlideModel>();
 
     public int bpm = 0;
     public int split = 0;
@@ -33,6 +33,16 @@ public class NotesModel {
         this.bpm = bpm;
         this.split = split;
         this.hold = hold;
+    }
+
+    public NotesModel(int start, int end, int type, int bpm, int split, List<SlideModel> slide)
+    {
+        this.start = start;
+        this.end = end;
+        this.type = type;
+        this.bpm = bpm;
+        this.split = split;
+        this.slide = slide;
     }
 
 }

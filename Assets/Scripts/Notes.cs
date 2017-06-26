@@ -6,7 +6,6 @@ public class Notes : MonoBehaviour {
 
     float speed;
     public NotesModel nm;
-    MeshCollider mc;
 
     public void Create(NotesModel nm,float speed)
     {
@@ -35,8 +34,17 @@ public class Notes : MonoBehaviour {
             mesh.vertices = new Vector3[] {
                 new Vector3 (nm.start - 7.8f, 0, 0),
                 new Vector3 (nm.end - 7.2f, 0, 0),
-                new Vector3 (nm.start - 7.8f, 0, (nm.hold) * speed * 1.5f + 1),
-                new Vector3 (nm.end - 7.2f, 0, (nm.hold) * speed * 1.5f + 1),
+                new Vector3 (nm.start - 7.8f, 0, nm.hold * speed * 1.5f + 1),
+                new Vector3 (nm.end - 7.2f, 0, nm.hold * speed * 1.5f + 1),
+            };
+        }
+        if (nm.type == 3)
+        {
+            mesh.vertices = new Vector3[] {
+                new Vector3 (nm.start - 7.8f, 0, 0),
+                new Vector3 (nm.end - 7.2f, 0, 0),
+                new Vector3 (nm.slide[0].start - 8.8f, 0, nm.slide[0].step * speed * 1.5f + 1),
+                new Vector3 (nm.slide[0].end - 8.2f, 0, nm.slide[0].step * speed * 1.5f + 1),
             };
         }
 
@@ -47,9 +55,6 @@ public class Notes : MonoBehaviour {
         var filter = GetComponent<MeshFilter>();
         mesh.name = "Notes Mesh";
         filter.sharedMesh = mesh;
-
-        mc = gameObject.AddComponent<MeshCollider>();
-        mc.sharedMesh = mesh;
 
         MeshRenderer meshrenderer = GetComponent<MeshRenderer>();
         if (nm.type == 0)

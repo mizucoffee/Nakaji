@@ -50,19 +50,31 @@ public class Main : MonoBehaviour
                 list[pos].Add(new NotesModel(x_1, x_2, 1, bpm, split));
             if (type == "H")
                 list[pos].Add(new NotesModel(x_1, x_2, 2, bpm, split, int.Parse(sp[4])));
+            if (type == "S")
+            {
+                List<SlideModel> smList = new List<SlideModel>();
+                foreach(String ss in sp[4].Split(':'))
+                {
+                    smList.Add(new SlideModel(
+                        int.Parse(ss.Split('-')[1]), 
+                        int.Parse(ss.Split('-')[2]), 
+                        int.Parse(ss.Split('-')[3]), 
+                        ss.Split('-')[0]));
+                }
                 
-
+                list[pos].Add(new NotesModel(x_1, x_2, 3, bpm, split, smList));
+            }
             line++;
         }
 
         foreach (List<NotesModel> lnm in list)
         {
-            foreach (NotesModel rn in lnm)
+            foreach (NotesModel nm in lnm)
             {
                 Vector3 v = new Vector3(0, 0.01f, 30.5f + notes * speed * 1.5f);
                 GameObject n = Instantiate(notesPrefub, v, transform.rotation);
                 Notes r = n.GetComponent<Notes>();
-                r.Create(rn, speed);
+                r.Create(nm, speed);
             }
             notes++;
         }
