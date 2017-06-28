@@ -7,6 +7,8 @@ public class Main : MonoBehaviour
 {
 
     public GameObject notesPrefub;
+    public GameObject tapPrefub;
+    public GameObject extapPrefub;
     public TextAsset textAsset;
     public int speed;
     
@@ -72,9 +74,28 @@ public class Main : MonoBehaviour
             foreach (NotesModel nm in lnm)
             {
                 Vector3 v = new Vector3(0, 0.01f, 30.5f + notes * speed * 1.5f);
-                GameObject n = Instantiate(notesPrefub, v, transform.rotation);
-                Notes r = n.GetComponent<Notes>();
-                r.Create(nm, speed);
+
+                if(nm.type == 0)
+                {
+                    v.y += 0.01f;
+                    GameObject n = Instantiate(tapPrefub, v, transform.rotation);
+                    Notes r = n.AddComponent<Notes>();
+                    r.Create(nm, speed);
+                }else if (nm.type == 1)
+                {
+                    v.y += 0.01f;
+                    GameObject n = Instantiate(extapPrefub, v, transform.rotation);
+                    Notes r = n.AddComponent<Notes>();
+                    r.Create(nm, speed);
+                }
+                else
+                {
+                    GameObject n = Instantiate(notesPrefub, v, transform.rotation);
+                    Notes r = n.GetComponent<Notes>();
+                    r.Create(nm, speed);
+                }
+                
+                
             }
             notes++;
         }

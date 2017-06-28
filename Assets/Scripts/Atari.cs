@@ -3,20 +3,28 @@ using System.IO.Ports;
 
 public class Atari : MonoBehaviour
 {
+    private AudioSource sound01;
     void Start()
     {
+        sound01 = GetComponent<AudioSource>();
         Open();
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            sound01.PlayOneShot(sound01.clip);
+        }
+    }
+
     int[] led = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Note")
+        if (collision.gameObject.tag == "Notes")
         {
-            int p = collision.gameObject.GetComponent<Notes>().nm.end - collision.gameObject.GetComponent<Notes>().nm.start;
-            int s = collision.gameObject.GetComponent<Notes>().nm.start;
-
-            for (int i = p; i < p + s; i++)
+            sound01.PlayOneShot(sound01.clip);
+            for (int i = collision.gameObject.GetComponent<Notes>().nm.start; i < collision.gameObject.GetComponent<Notes>().nm.end + 1; i++)
             {
                 led[i] = 1;
             }
@@ -34,11 +42,8 @@ public class Atari : MonoBehaviour
     {
         if (collision.gameObject.tag == "Notes")
         {
-            int p = collision.gameObject.GetComponent<Notes>().nm.end - collision.gameObject.GetComponent<Notes>().nm.start ;
-            int s = collision.gameObject.GetComponent<Notes>().nm.start;
 
-
-            for (int i = p; i < p + s; i++)
+            for (int i = collision.gameObject.GetComponent<Notes>().nm.start; i < collision.gameObject.GetComponent<Notes>().nm.end + 1; i++)
             {
                 led[i] = 0;
             }
