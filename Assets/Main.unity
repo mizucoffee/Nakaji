@@ -1407,7 +1407,7 @@ MonoBehaviour:
   extapPrefub: {fileID: 1138877655061420, guid: 46a99e3e0a5b6f741a059ae7c6b18aa6,
     type: 2}
   textAsset: {fileID: 0}
-  speed: 3
+  speed: 1
 --- !u!1 &1910938462
 GameObject:
   m_ObjectHideFlags: 0

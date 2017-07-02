@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SlideModel{
-
-    public int step = 0;
+    
+    public int position = 0;
     public int start = 0;
-    public int end = 0;
-    public string type = "";
+    public int width = 0;
+    public int type = 0;
+    public int measure = 0;
+    public int split = 0;
+    // 2: HOLD
+    // 3: SLIDE
+    // 4: AIR-ACTION
 
-    public SlideModel(int step,int start,int end,string type)
+    public SlideModel(int start, int width, int type, int measure, int position, int split)
     {
-        this.step = step;
+        this.position = position;
+        this.measure = measure;
+        this.split = split;
         this.start = start;
-        this.end = end;
+        this.width = width;
         this.type = type;
     }
 }

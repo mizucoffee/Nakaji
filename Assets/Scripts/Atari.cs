@@ -24,7 +24,7 @@ public class Atari : MonoBehaviour
         if (collision.gameObject.tag == "Notes")
         {
             sound01.PlayOneShot(sound01.clip);
-            for (int i = collision.gameObject.GetComponent<Notes>().nm.start; i < collision.gameObject.GetComponent<Notes>().nm.end + 1; i++)
+            for (int i = collision.gameObject.GetComponent<Notes>().nm.start; i < collision.gameObject.GetComponent<Notes>().nm.width + 1; i++)
             {
                 led[i] = 1;
             }
@@ -43,7 +43,7 @@ public class Atari : MonoBehaviour
         if (collision.gameObject.tag == "Notes")
         {
 
-            for (int i = collision.gameObject.GetComponent<Notes>().nm.start; i < collision.gameObject.GetComponent<Notes>().nm.end + 1; i++)
+            for (int i = collision.gameObject.GetComponent<Notes>().nm.start; i < collision.gameObject.GetComponent<Notes>().nm.width + 1; i++)
             {
                 led[i] = 0;
             }
