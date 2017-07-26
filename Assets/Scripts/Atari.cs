@@ -1,13 +1,43 @@
 ﻿using UnityEngine;
 using System.IO.Ports;
+using System.Threading;
+using System;
 
 public class Atari : MonoBehaviour
 {
     private AudioSource sound01;
+    private Thread thread;
+    private bool isRunning = false;
+    private string message;
+    private bool isNewMessageReceived = false;
+    public GameObject[] tap;
+
     void Start()
     {
         sound01 = GetComponent<AudioSource>();
         Open();
+    }
+
+    void OnDestroy()
+    {
+        Close();
+    }
+
+    private void Close()
+    {
+        isNewMessageReceived = false;
+        isRunning = false;
+
+        if (thread != null && thread.IsAlive)
+        {
+            thread.Join();
+        }
+
+        if (serialPort != null && serialPort.IsOpen)
+        {
+            serialPort.Close();
+            serialPort.Dispose();
+        }
     }
 
     private void Update()
@@ -16,6 +46,21 @@ public class Atari : MonoBehaviour
         {
             sound01.PlayOneShot(sound01.clip);
         }
+        
+        if (isNewMessageReceived)
+        {
+
+            char[] cs = Convert.ToString(Convert.ToInt32(message, 16), 2).ToCharArray();
+            Array.Reverse(cs);
+            cs = new String(cs).PadRight(8, '0').ToCharArray();
+
+            for (int i = 0; i < cs.Length; i++)
+                if (cs[i] == '0')
+                    tap[i].SetActive(false);
+                else if (cs[i] == '1')
+                    tap[i].SetActive(true);
+        }
+        isNewMessageReceived = false;
     }
 
     int[] led = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -64,9 +109,28 @@ public class Atari : MonoBehaviour
     private SerialPort serialPort;
     private void Open()
     {
-        serialPort = new SerialPort("COM8", 9600, Parity.None, 8, StopBits.One);
+        serialPort = new SerialPort(@"\\.\COM11", 2000000, Parity.None, 8, StopBits.One);
         serialPort.Open();
+        isRunning = true;
+        thread = new Thread(Read);
+        thread.Start();
 
+    }
+
+    private void Read()
+    {
+        while (isRunning&& serialPort != null && serialPort.IsOpen)
+        {
+            try
+            {
+                message = serialPort.ReadLine();
+                isNewMessageReceived = true;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning(e.Message);
+            }
+        }
     }
 
     public void Write(string message)

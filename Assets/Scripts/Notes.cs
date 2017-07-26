@@ -46,8 +46,8 @@ public class Notes : MonoBehaviour {
                 mesh.vertices = new Vector3[] {
                     new Vector3 (nm.start - 7.8f, 0, 0),
                     new Vector3 (nm.width - 7.2f, 0, 0),
-                    new Vector3 (nm.start - 7.8f, 0, nm.hold * speed * 1.5f),
-                    new Vector3 (nm.width - 7.2f, 0, nm.hold * speed * 1.5f),
+                    new Vector3 (nm.start - 7.8f, 0, nm.slide[1].position * speed * 1.5f),
+                    new Vector3 (nm.width - 7.2f, 0, nm.slide[1].position * speed * 1.5f),
                 };
                 mesh.uv = new Vector2[] {
                     new Vector2 (0, 0),
@@ -62,12 +62,12 @@ public class Notes : MonoBehaviour {
                 v.y += 0.01f;
                 GameObject n = Instantiate(notesPrefub, v, transform.rotation);
                 Notes r = n.AddComponent<Notes>();
-               // r.Create(new NotesModel(nm.start, nm.end,0,nm.bpm, nm.split), speed);
+                r.Create(new NotesModel(nm.start, nm.width,0, nm.measure, nm.position, nm.split), speed);
                 
                 v.z += nm.hold * speed * 1.5f ;
                 GameObject n2 = Instantiate(notesPrefub, v, transform.rotation);
                 Notes r2 = n2.AddComponent<Notes>();
-                //r2.Create(new NotesModel(nm.start, nm.end, 0, nm.bpm, nm.split), speed);
+                r2.Create(new NotesModel(nm.start, nm.width, 0, nm.measure, nm.position, nm.split), speed);
             }
         
 
@@ -102,11 +102,11 @@ public class Notes : MonoBehaviour {
                     tri[c++] = i - 2;
                     tri[c++] = i;
                     tri[c++] = i + 1;
-                    countStep = countStep + sm.step;
+                    //countStep = countStep + sm.step;
                     ver[i] = new Vector3(sm.start - 8.8f, 0, countStep * speed * 1.5f + 1);
                     i++;
-                    ver[i] = new Vector3(sm.end - 8.2f, 0, countStep * speed * 1.5f + 1);
-                    i++;
+                    //ver[i] = new Vector3(sm.end - 8.2f, 0, countStep * speed * 1.5f + 1);
+                    //i++;
                 }
                 mesh.vertices = ver;
 
