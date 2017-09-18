@@ -52,13 +52,30 @@ public class Atari : MonoBehaviour
 
             char[] cs = Convert.ToString(Convert.ToInt32(message, 16), 2).ToCharArray();
             Array.Reverse(cs);
-            cs = new String(cs).PadRight(8, '0').ToCharArray();
+            cs = new String(cs).PadRight(16, '0').ToCharArray();
 
             for (int i = 0; i < cs.Length; i++)
                 if (cs[i] == '0')
                     tap[i].SetActive(false);
                 else if (cs[i] == '1')
                     tap[i].SetActive(true);
+
+            String color = "";
+            for (int i = 0; i < cs.Length / 4; i++)
+                if (cs[i * 4] == '1' || cs[i * 4 + 1] == '1' || cs[i * 4 + 2] == '1' || cs[i * 4 + 3] == '1')
+                    color = color + "1111";
+                else
+                    color = color + "0000";
+
+            serialPort.Write(color+";");
+            Debug.Log(color);
+            //char[] cs = message.ToCharArray();
+
+                //for (int i = 0; i < cs.Length; i++)
+                //    if (cs[i] == '0')
+                //        tap[i].SetActive(false);
+                //    else if (cs[i] == '1')
+                //        tap[i].SetActive(true);
         }
         isNewMessageReceived = false;
     }

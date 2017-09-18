@@ -27,6 +27,7 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
+        new SusAnalyzer("white");
         //TextAsset textAsset = Resources.Load("umiyurikaiteitan-expert") as TextAsset;
         
         //foreach (string s in textAsset.text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
