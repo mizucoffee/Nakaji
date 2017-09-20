@@ -18,20 +18,26 @@ public class Atari : MonoBehaviour
         Open();
     }
 
-    void OnDestroy()
+    //void OnDestroy()
+    //{
+    //    Close();
+    //}
+
+    private void OnApplicationQuit()
     {
         Close();
     }
+
 
     private void Close()
     {
         isNewMessageReceived = false;
         isRunning = false;
 
-        if (thread != null && thread.IsAlive)
-        {
-            thread.Join();
-        }
+        //if (thread != null && thread.IsAlive)
+        //{
+        //    thread.Join();
+        //}
 
         if (serialPort != null && serialPort.IsOpen)
         {
@@ -53,6 +59,7 @@ public class Atari : MonoBehaviour
             char[] cs = Convert.ToString(Convert.ToInt32(message, 16), 2).ToCharArray();
             Array.Reverse(cs);
             cs = new String(cs).PadRight(16, '0').ToCharArray();
+            Array.Reverse(cs);
 
             for (int i = 0; i < cs.Length; i++)
                 if (cs[i] == '0')
@@ -63,9 +70,9 @@ public class Atari : MonoBehaviour
             String color = "";
             for (int i = 0; i < cs.Length / 4; i++)
                 if (cs[i * 4] == '1' || cs[i * 4 + 1] == '1' || cs[i * 4 + 2] == '1' || cs[i * 4 + 3] == '1')
-                    color = color + "1111";
+                    color = "1111" + color;
                 else
-                    color = color + "0000";
+                    color = "0000" + color;
 
             serialPort.Write(color+";");
             Debug.Log(color);
@@ -126,8 +133,9 @@ public class Atari : MonoBehaviour
     private SerialPort serialPort;
     private void Open()
     {
-        serialPort = new SerialPort(@"\\.\COM11", 2000000, Parity.None, 8, StopBits.One);
+        serialPort = new SerialPort(@"COM3", 2000000);
         serialPort.Open();
+        Debug.Log("OPEN PORT");
         isRunning = true;
         thread = new Thread(Read);
         thread.Start();
